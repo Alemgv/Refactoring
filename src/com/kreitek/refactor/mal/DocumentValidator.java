@@ -2,36 +2,24 @@ package com.kreitek.refactor.mal;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 public class DocumentValidator 
 {
-
-    public enum TipoUltCaracter
-    {
-        LETRA,
-        NUMERO,
-        AMBOS
+    public enum TipoUltCaracter {
+        LETRA, NUMERO, AMBOS
     }
-
 
     private static DocumentValidator doc;
 
-    private DocumentValidator() 
-    {
-        if (doc != null) 
-        {
+    private DocumentValidator() {
+        if (doc != null) {
             throw new RuntimeException("Usage getInstance() method to create");
         }
     }
 
-    public static DocumentValidator getInstance() 
-    {
-        if (doc == null) 
-        {
-            synchronized(DocumentValidator.class) 
-            {
-                if (doc == null) 
-                {
+    public static DocumentValidator getInstance() {
+        if (doc == null) {
+            synchronized(DocumentValidator.class) {
+                if (doc == null) {
                     doc = new DocumentValidator();
                 }
             }
@@ -63,19 +51,16 @@ public class DocumentValidator
 	    char letra = palabrasGancho.charAt(letraDni); 
 	    String letraGancho = Character.toString(letra);
 	    boolean validaLetra = letraGancho.equalsIgnoreCase(ultimaLetra);
-        if (validaLetra) {
+        if (validaLetra)
             return ( "DNI " + codigo + " es: " + true); 
-        } else {
+        else 
             return ( "DNI " + codigo + " es: " + false); 
-        }
     }
-    public String CIF(String codigo) 
-    {
-        if (codigo != null) {
-            final String cifUP = codigo.toUpperCase();
+    
+    public String CIF(String codigo) {
+        codigo = codigo.toUpperCase();
 
-        // si el primer caracter no es uno de los válidos entonces ya fallamos
-        if ("ABCDEFGHJKLMNPQRSUVW".indexOf(cifUP.charAt(0)) == -1) 
+        if ("ABCDEFGHJKLMNPQRSUVW".indexOf(codigo.charAt(0)) == -1) 
         {
             return ( "DNI " + codigo + " es: " + false);
         }
@@ -83,14 +68,14 @@ public class DocumentValidator
         // si no cumple el patrón de CIF fallamos
         final Pattern mask = Pattern
                 .compile("[ABCDEFGHJKLMNPQRSUVW][0-9]{7}[A-Z[0-9]]{1}");
-        final Matcher matcher = mask.matcher(cifUP);
+        final Matcher matcher = mask.matcher(codigo);
         if (!matcher.matches()) 
         {
             return ( "DNI " + codigo + " es: " + false);
         }
 
-        final char primerCar = cifUP.charAt(0);
-        final char ultimoCar = cifUP.charAt(cifUP.length() - 1);
+        final char primerCar = codigo.charAt(0);
+        final char ultimoCar = codigo.charAt(codigo.length() - 1);
 
         TipoUltCaracter tipUltCar;
 
@@ -115,7 +100,7 @@ public class DocumentValidator
             tipUltCar = TipoUltCaracter.AMBOS;
         }
 
-        final String digitos = cifUP.substring(1, cifUP.length() - 1);
+        final String digitos = codigo.substring(1, codigo.length() - 1);
         
         Integer sumaPares = 0;
         for (int i = 1; i <= digitos.length() - 1; i = i + 2) 
@@ -177,7 +162,5 @@ public class DocumentValidator
             }
         }
         return ( "DNI " + codigo + " es: " + true);
-    }
-    return ( "DNI " + codigo + " es: " + false);  
     }
 }
