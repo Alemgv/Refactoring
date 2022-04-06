@@ -56,23 +56,18 @@ public class DocumentValidator
         else 
             return ( "DNI " + codigo + " es: " + false); 
     }
-    
+
     public String CIF(String codigo) {
         codigo = codigo.toUpperCase();
 
         if ("ABCDEFGHJKLMNPQRSUVW".indexOf(codigo.charAt(0)) == -1) 
-        {
             return ( "DNI " + codigo + " es: " + false);
-        }
 
-        // si no cumple el patrón de CIF fallamos
         final Pattern mask = Pattern
                 .compile("[ABCDEFGHJKLMNPQRSUVW][0-9]{7}[A-Z[0-9]]{1}");
         final Matcher matcher = mask.matcher(codigo);
         if (!matcher.matches()) 
-        {
             return ( "DNI " + codigo + " es: " + false);
-        }
 
         final char primerCar = codigo.charAt(0);
         final char ultimoCar = codigo.charAt(codigo.length() - 1);
@@ -82,29 +77,24 @@ public class DocumentValidator
         // si empiezo por P,Q, S, K o W la última letra tiene que ser una LETRA
         if (primerCar == 'P' || primerCar == 'Q' || primerCar == 'S' || primerCar == 'K' || primerCar == 'W') {
             tipUltCar = TipoUltCaracter.LETRA;
-            if (!(ultimoCar >= 'A' && ultimoCar <= 'Z')) 
-            {
+            if (!(ultimoCar >= 'A' && ultimoCar <= 'Z')) {
                 return ( "DNI " + codigo + " es: " + false);
             }
         // si empiezo por A, B, E o H la última letra tiene que ser un número
         } else if (primerCar == 'A' || primerCar == 'B' || primerCar == 'E'
                 || primerCar == 'H') {
             tipUltCar = TipoUltCaracter.NUMERO;
-            if (!(ultimoCar >= '0' && ultimoCar <= '9'))
-            {
+            if (!(ultimoCar >= '0' && ultimoCar <= '9')) {
                 return ( "DNI " + codigo + " es: " + false);
             }
-        } 
-        else 
-        {
+        } else {
             tipUltCar = TipoUltCaracter.AMBOS;
         }
 
         final String digitos = codigo.substring(1, codigo.length() - 1);
         
         Integer sumaPares = 0;
-        for (int i = 1; i <= digitos.length() - 1; i = i + 2) 
-        {
+        for (int i = 1; i <= digitos.length() - 1; i = i + 2) {
             sumaPares += Integer.parseInt(digitos.substring(i, i + 1));
         }
 
@@ -125,27 +115,18 @@ public class DocumentValidator
         int pos = numControl == 10? 0:numControl;
         final char carControl = "JABCDEFGHI".charAt(pos);
 
-        if (tipUltCar == TipoUltCaracter.NUMERO) 
-        {
+        if (tipUltCar == TipoUltCaracter.NUMERO) {
             final Integer ultCar = Integer.parseInt(Character
                 .toString(ultimoCar));
-            if (pos != ultCar.intValue()) 
-            {
-
+            if (pos != ultCar.intValue()) {
                 return ( "DNI " + codigo + " es: " + false);
             }
 
+        } else if (tipUltCar == TipoUltCaracter.LETRA) {
+            if (carControl != ultimoCar) {
+                return ( "DNI " + codigo + " es: " + false);
             } 
-            else if (tipUltCar == TipoUltCaracter.LETRA) 
-            {
-            if (carControl != ultimoCar) 
-            {
-                return ( "DNI " + codigo + " es: " + false);
-            }
-
-        } 
-        else 
-        {
+        } else {
             // find all occurrences forward
             Integer ultCar = -1;
 
