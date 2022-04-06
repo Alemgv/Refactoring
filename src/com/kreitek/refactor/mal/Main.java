@@ -10,24 +10,11 @@ class  Main
 
         DocumentValidator doc = DocumentValidator.getInstance();
 
-        // creamos un DNI correcto
-        DOCUMENTYPE.DNINIE.DocumentValidator(doc, "11111111H", null);
-        System.out.println( "DNI " + doc.codigo + " es: " + (doc.validaDocuments() == 1));
-
-        DOCUMENTYPE.DNINIE.DocumentValidator(doc, "24324356A", null);
-        System.out.println( "DNI " + doc.codigo + " es: " + (doc.validaDocuments() == 1));
-
-        DOCUMENTYPE.DNINIE.DocumentValidator(doc, "X0932707B", null);
-        System.out.println( "DNI " + doc.codigo + " es: " + (doc.validaDocuments() == 1));
-
-        DOCUMENTYPE.DNINIE.DocumentValidator(doc, "Z2691139Z", null);
-        System.out.println( "DNI " + doc.codigo + " es: " + (doc.validaDocuments() == 1));
-
-        DOCUMENTYPE.CIF.DocumentValidator(doc, "W9696294I", null);
-        System.out.println( "DNI " + doc.codigo + " es: " + (doc.validaDocuments() == 1));
-
-        DOCUMENTYPE.CIF.DocumentValidator(doc, "W9696294A", null);
-        System.out.println( "DNI " + doc.codigo + " es: " + (doc.validaDocuments() == 1));
-
+        System.out.println(doc.CIF("11111111H"));
+        System.out.println(doc.CIF("24324356A"));
+        System.out.println(doc.CIF("X0932707B"));
+        System.out.println(doc.CIF("Z2691139Z"));
+        System.out.println(doc.CIF("W9696294I"));
+        System.out.println(doc.CIF("W9696294A"));
     }
 }
